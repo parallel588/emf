@@ -1,0 +1,9 @@
+module Emf
+  module EmfDraw
+    class << self
+      def pr
+        "draw records"
+      end
+    end
+  end
+end

@@ -1,0 +1,9 @@
+module Emf
+  module EmfObj
+    class << self
+      def rt
+        "work emf_obj"
+      end
+    end
+  end
+end
