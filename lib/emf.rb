@@ -4,6 +4,7 @@ $KCODE='u'
 $:.push File.join(File.dirname(__FILE__), 'emf')
 
 require "logger"
+$:.unshift File.expand_path(File.dirname(__FILE__))
 require 'rubygems'
 
 
@@ -15,14 +16,14 @@ module Emf
   autoload :EmfPathBracket ,     'emf/structure/record/emf_path_bracket'
 
   class << self
-    @@log = Logger.new(STDOUT)
+     @@log = Logger.new(STDOUT)
     def log(message)
       @@log.info(message)
     end
   end
 end
 
-Emf.log("Program started")
+# Emf.log("Program started")
 
 
 # ------------------------------------------------------------------------------------------

@@ -6,7 +6,7 @@ module Emf
     include EmfDraw
     include EmfPathBracket
     attr_reader :records
-    def initialize(file="/home/maxim/sheme_102.emf", *mode)
+    def initialize(file, *mode)
       binmode
       @records = []
       super
@@ -43,15 +43,14 @@ module Emf
       (@header[:num_of_records]-1).times do |r|
         @function,@size = ri,ri
         @params = read(@size-8)
-        Emf.log RECORD_TYPE[@function]
         @r = self.class.send(RECORD_TYPE[@function].to_s.downcase,@params)
         @records << [RECORD_TYPE[@function], @r]  if @r
         @rec << RECORD_TYPE[@function] unless @r
       end
-      return @rec.uniq
-      # return self
+      # return @rec.uniq
+      return records
     end
-    private
+    # private
     class << self
       def method_missing(method, *args)
         # Emf.log "call methods #{method}"
