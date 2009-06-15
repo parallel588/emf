@@ -136,6 +136,14 @@ module Emf
         }
       end
 
+      # Методы для работы с текстом
+      def emr_exttextouta params
+        { :bounds => rect_l(params) }
+      end
+      def emr_exttextoutw params
+        { :bounds => rect_l(params) }
+      end
+
     end
 
     def self.included(klass)

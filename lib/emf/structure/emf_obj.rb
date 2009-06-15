@@ -59,7 +59,7 @@ module Emf
       end
 
       def rect_l b
-        point([b[0..3],b[4..7],b[8..11],b[12..15]],"I")
+        point([b[0..3],b[4..7],b[8..11],b[12..15]],"I") 
       end
 
       def point_s b

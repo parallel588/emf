@@ -256,7 +256,13 @@ describe EmfDraw do
     (@returning_param[:text].is_a?(String) &&  @returning_param[:text] == "Hello_world!!!").should be_true
   end
 
-  it " метод emr_exttextouta"
+  it " метод emr_exttextouta" do
+    @returning_param = TestEmf.send(:emr_exttextouta,"\000\000\000\000\000\000\000\000\f\000\000\000\f\000\000\000")
+    @returning_param.is_a?(Hash).should be_true
+    @returning_param[:bounds].is_a?(Array).should be_true
+    @returning_param[:bounds].should == [0,0,12,12]
+  end
+
   it " метод emr_exttextoutw"
 
   it "emr_polytextouta"
