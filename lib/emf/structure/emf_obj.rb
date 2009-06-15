@@ -1,10 +1,19 @@
+require "iconv"
 module Emf
   module EmfObj
     module ClassMethods
+      def utf16_to_utf8(str,from="UTF-16LE")
+        Iconv.iconv("UTF-8", from, str)[0]
+      end
+
       def usingned_integer params
         params.unpack("V").first
       end
       alias :us_int  :usingned_integer
+
+      def float params
+        params.unpack("F").first
+      end
 
       def points(count,params,type= :point_s)
         case type

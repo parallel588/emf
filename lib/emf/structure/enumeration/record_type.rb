@@ -249,5 +249,7 @@ module Emf
       0x00000079 => :EMR_COLORMATCHTOTARGETW,
       0x0000007A => :EMR_CREATECOLORSPACEW
     }
+
+
   end
 end

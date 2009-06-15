@@ -120,6 +120,22 @@ module Emf
           :color => color_ref(params[8..-1])
         }
       end
+
+      def emr_smalltextout params
+        {
+          :x => us_int(params[0..3]),
+          :y => us_int(params[4..7]),
+          :c_chars => us_int(params[8..11]),
+          :fu_options => us_int(params[12..15]),
+          :graphics_mode => us_int(params[16..19]),
+          :ex_scale => float(params[20..23]),
+          :ey_scale => float(params[24..27]),
+          :bounds => rect_l(params[28..43]),
+          :text => utf16_to_utf8(params[44..-1])
+
+        }
+      end
+
     end
 
     def self.included(klass)

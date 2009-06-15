@@ -1,10 +1,14 @@
 require File.dirname(__FILE__) + '/spec_helper'
-
+#require "iconv"
 class TestEmf
   include Emf::EmfDraw
   include Emf::EmfObj
 end
 describe EmfDraw do
+  def round_to(num,x)
+    (num * 10**2).round.to_f / 10**2
+  end
+
   [
    :emr_anglearc, :emr_arc,  :emr_arcto, :emr_chord, :emr_ellipse, :emr_extfloodfill, :emr_exttextouta,
    :emr_exttextoutw, :emr_fillpath,  :emr_fillrgn,  :emr_framergn, :emr_gradientfill, :emr_lineto,
@@ -226,9 +230,35 @@ describe EmfDraw do
     @returning_param[:color].should == [2,2,2]
   end
 
+  it "emr_smalltextout" do
+    @returning_param = TestEmf.send(:emr_smalltextout,%W{\f\000\000\000\001\000\000\000
+                                                       \026\000\000\000\000\b\000\000
+                                                       \002\000\000\000\000\000\000@
+                                                       \232\231\231?
+                                                       \000\000\000\000\000\000\000\000
+                                                       \f\000\000\000\f\000\000\000
+                                                        H\000e\000l\000l\000o\000_\000w\000o\000r\000l\000d\000!\000!\000!\000
+                                                       }.join)
+    @returning_param.is_a?(Hash).should be_true
+    (@returning_param.has_key?(:x) && @returning_param[:x].is_a?(Integer) &&
+     @returning_param[:x] == 12   ).should be_true
+    (@returning_param.has_key?(:y) && @returning_param[:y].is_a?(Integer) &&
+     @returning_param[:y] == 1 ).should be_true
+    (@returning_param.has_key?(:c_chars) && @returning_param[:c_chars].is_a?(Integer) &&
+     @returning_param[:c_chars] == 22).should be_true
+    (@returning_param[:fu_options].is_a?(Integer) &&  @returning_param[:fu_options] == 2048).should be_true
+    (@returning_param[:graphics_mode].is_a?(Integer) &&  @returning_param[:graphics_mode] == 2).should be_true
+
+    (@returning_param[:ex_scale].is_a?(Float) &&  round_to(@returning_param[:ex_scale],2) == 2.0).should be_true
+    (@returning_param[:ey_scale].is_a?(Float) &&  round_to(@returning_param[:ey_scale],2) == 1.2).should be_true
+    @returning_param[:bounds].is_a?(Array).should be_true
+    @returning_param[:bounds].should == [0,0,12,12]
+    (@returning_param[:text].is_a?(String) &&  @returning_param[:text] == "Hello_world!!!").should be_true
+  end
+
   it " метод emr_exttextouta"
   it " метод emr_exttextoutw"
-  it "emr_smalltextout"
+
   it "emr_polytextouta"
   it "emr_polytextoutw"
 
